@@ -51,7 +51,7 @@ print(args)
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 best_acc = 0  
 start_epoch = 0 
-#数据预处理
+
 print('==> Preparing data..')
 transform_train = transforms.Compose([
     transforms.RandomCrop(32, padding=4),
@@ -73,7 +73,6 @@ transform_test = transforms.Compose([
 # classes = ('plane', 'car', 'bird', 'cat', 'deer',
 #            'dog', 'frog', 'horse', 'ship', 'truck')
 
-# 数据增强和归一化
 transform_pet = transforms.Compose([
     transforms.Resize((224, 224)),
     transforms.ToTensor(),
@@ -122,7 +121,7 @@ print('==> Building model..')
 # net = RegNetX_200MF()
 # net = SimpleDLA()
 
-# 使用torchvision的resnet18预训练模型，冻结除最后一层外的所有参数，只训练最后一层
+
 net = models.resnet18(pretrained=True)
 for param in net.parameters():
     param.requires_grad = False
@@ -157,7 +156,7 @@ train_accs = []
 test_losses = []
 test_accs = []
 
-#训练
+
 def train(epoch):
     print('\nEpoch: %d' % epoch)
     net.train()
@@ -212,7 +211,7 @@ def test(epoch):
                 })
     avg_loss = test_loss / (batch_idx + 1)
     avg_acc = 100. * correct / total
-    #  记录每个epoch的损失和准确率
+
     test_losses.append(avg_loss)
     test_accs.append(avg_acc)
     acc = avg_acc
@@ -239,7 +238,7 @@ for epoch in range(start_epoch, start_epoch + 200):
     test_losses.append(test_loss)
     test_accs.append(test_acc)
 
-# 绘制损失和准确率随epoch变化的折线图
+
 epochs = range(start_epoch, start_epoch + 200)
 plt.figure(figsize=(12,5))
 plt.subplot(1,2,1)
